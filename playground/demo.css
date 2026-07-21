@@ -1,0 +1,15 @@
+:root {
+  --accent-blue: #2f63c6;
+  --accent-teal: #2f8f83;
+  --surface: #f8f8f8;
+}
+
+.button-primary {
+  color: white;
+  background: var(--accent-blue);
+  border: 1px solid var(--accent-teal);
+}
+
+.button-primary:hover {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-teal) 30%, white);
+}

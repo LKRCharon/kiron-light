@@ -1,0 +1,58 @@
+{
+  "name": "kiron-light",
+  "displayName": "Kiron Light",
+  "description": "A calm, Apple-inspired light theme for VS Code with balanced blues, soft surfaces, and modern semantic highlighting.",
+  "version": "0.2.0",
+  "publisher": "kairong",
+  "author": {
+    "name": "LKRCharon",
+    "email": "chronnk@qq.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LKRCharon/kiron-light.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LKRCharon/kiron-light/issues"
+  },
+  "homepage": "https://github.com/LKRCharon/kiron-light#readme",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#f8f8f8",
+    "theme": "light"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "light theme",
+    "light",
+    "apple",
+    "macos",
+    "minimal",
+    "clean",
+    "color-theme"
+  ],
+  "scripts": {
+    "package": "mkdir -p artifacts && vsce package --out \"artifacts/kiron-light-$npm_package_version.vsix\"",
+    "install:vscode": "mkdir -p artifacts && VSIX=\"artifacts/kiron-light-$npm_package_version.vsix\" && ./node_modules/.bin/vsce package --out \"$VSIX\" && \"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code\" --install-extension \"$VSIX\" --force",
+    "publish": "vsce publish"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Kiron Light",
+        "uiTheme": "vs",
+        "path": "./themes/kiron-light-color-theme.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.9.2"
+  }
+}

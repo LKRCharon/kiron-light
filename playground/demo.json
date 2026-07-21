@@ -1,0 +1,11 @@
+{
+  "name": "kiron-light",
+  "enabled": true,
+  "accent": "teal",
+  "retries": 3,
+  "tokens": {
+    "keyword": "#386AC3",
+    "support": "#2F8F83",
+    "string": "#E88501"
+  }
+}

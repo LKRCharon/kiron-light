@@ -1,0 +1,11 @@
+.git/**
+.DS_Store
+.gitignore
+artifacts/**
+*.vsix
+work/**
+outputs/**
+node_modules/**
+*.code-workspace
+playground/**
+learn/**
