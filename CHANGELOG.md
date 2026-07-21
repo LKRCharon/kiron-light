@@ -2,6 +2,12 @@
 
 All notable changes to the Kiron Light theme are documented here.
 
+## 0.2.1 — 2026-07-21
+
+- Fix: title bar agent status pill (search / chat capsule) showed a muddy blue tint — the new `agentStatusIndicator.background` key was undefined and fell back to a focusBorder-derived color; now a quiet `#F5F5F7` matching the command center
+- Add: `inputOption.*` keys for find-widget toggles (match case / regex), active state uses a soft blue chip `#D6E9FB`
+- Packaging: exclude `.qoder/` and `work/` from the VSIX
+
 ## 0.2.0 — 2026-07-21
 
 First public release.

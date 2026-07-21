@@ -49,6 +49,10 @@
     "input.foreground": "#353535",
     "input.border": "#c7ccd2",
     "input.placeholderForeground": "#8b929d",
+    "inputOption.activeBackground": "#D6E9FB",
+    "inputOption.activeBorder": "#9CC9F0",
+    "inputOption.activeForeground": "#0066D6",
+    "inputOption.hoverBackground": "#0000000A",
 
     // ---- Scrollbar ----
     "scrollbar.shadow": "#00000012",
@@ -500,6 +504,7 @@
     "commandCenter.inactiveForeground": "#8E8E93",
     "commandCenter.inactiveBorder": "#d2d2d7",
     "commandCenter.debuggingBackground": "#b392f0",
+    "agentStatusIndicator.background": "#F5F5F7",
     "keybindingLabel.background": "#F5F5F7",
     "keybindingLabel.foreground": "#353535",
     "keybindingLabel.border": "#D2D2D7",
