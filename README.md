@@ -4,7 +4,7 @@ A calm, Apple-inspired light theme for VS Code. Bright without being harsh, blue
 
 Kiron Light pairs a system-blue interaction layer with a restrained, proven syntax palette. The UI feels like a native macOS app; the code feels like a well-tuned editor. The two layers are designed independently and deliberately kept apart.
 
-[Install from the Marketplace](https://marketplace.visualstudio.com/items?itemName=kairong.kiron-light) · [Repository](https://github.com/LKRCharon/kiron-light) · [Changelog](CHANGELOG.md)
+[Install from the Marketplace](https://marketplace.visualstudio.com/items?itemName=KairongLi.kiron-light) · [Repository](https://github.com/LKRCharon/kiron-light) · [Changelog](CHANGELOG.md)
 
 ## Design
 
@@ -53,7 +53,7 @@ Kiron Light is written against the current theme spec — 700+ workbench color k
 Search for **Kiron Light** in the Extensions view, or:
 
 ```
-code --install-extension kairong.kiron-light
+code --install-extension KairongLi.kiron-light
 ```
 
 Then select it via `Preferences: Color Theme` → **Kiron Light**.

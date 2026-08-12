@@ -2,6 +2,12 @@
 
 All notable changes to the Kiron Light theme are documented here.
 
+## 0.2.2 — 2026-08-12
+
+- Fix: remove a duplicate `agentStatusIndicator.background` entry that overrode the intended quiet `#F5F5F7` value
+- Packaging: align the manifest publisher with the existing Marketplace publisher ID `KairongLi`
+- Packaging: synchronize the lockfile version with the extension manifest
+
 ## 0.2.1 — 2026-07-21
 
 - Fix: title bar agent status pill (search / chat capsule) showed a muddy blue tint — the new `agentStatusIndicator.background` key was undefined and fell back to a focusBorder-derived color; now a quiet `#F5F5F7` matching the command center

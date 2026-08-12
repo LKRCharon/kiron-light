@@ -748,7 +748,6 @@
     "agentSessionReadIndicator.foreground": "#8E8E93",
     "agentSessionSelectedBadge.border": "#0A84FF",
     "agentSessionSelectedUnfocusedBadge.border": "#8E8E93",
-    "agentStatusIndicator.background": "#0A84FF26",
     "aiCustomizationManagement.sashBorder": "#d2d7dd",
 
     // ---- Symbol icons (mapped from token palette) ----
