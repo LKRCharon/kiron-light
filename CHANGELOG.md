@@ -2,6 +2,13 @@
 
 All notable changes to the Kiron Light theme are documented here.
 
+## 0.3.0 — 2026-08-12
+
+- Python: color untyped member calls such as `stream.readline().split()` consistently with functions and methods
+- Git: deepen added and untracked resource labels for clearer contrast in Explorer and Source Control
+- Lists: remove the distracting focus outline from selected rows while retaining the selection background
+- Development: replace the minimal playground with 1,000+ line, production-shaped fixtures for every included language
+
 ## 0.2.2 — 2026-08-12
 
 - Fix: remove a duplicate `agentStatusIndicator.background` entry that overrode the intended quiet `#F5F5F7` value

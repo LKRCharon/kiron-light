@@ -1,23 +1,1806 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="kiron-light">
   <head>
-    <meta charset="UTF-8" />
-    <title>Kiron Light Playground</title>
-    <style>
-      body {
-        font-family: "SF Pro Text", sans-serif;
-      }
-
-      .card[data-tone="teal"] {
-        color: #2f8f83;
-        border: 1px solid currentColor;
-      }
-    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Kiron Fleet Control Plane engineering fixture">
+    <title>Kiron Fleet Control Plane</title>
+    <link rel="stylesheet" href="./demo.css">
+    <script type="module" src="./demo.js"></script>
   </head>
   <body>
-    <main class="card" data-tone="teal">
-      <h1>Hello playground</h1>
-      <p title="preview">Check attributes, strings, and tag names.</p>
-    </main>
+    <a class="skip-link" href="#workspace">Skip to operations workspace</a>
+    <div class="app-shell" data-density="comfortable">
+      <header class="topbar">
+        <div class="brand-lockup" aria-label="Kiron Fleet Control Plane">
+          <span class="brand-mark" aria-hidden="true">K</span>
+          <span class="brand-copy">
+            <strong>Kiron Fleet</strong>
+            <small>Production control plane</small>
+          </span>
+        </div>
+        <form class="command-search" role="search">
+          <label class="sr-only" for="global-search">Search services and incidents</label>
+          <input id="global-search" name="q" type="search" placeholder="Search services, flags, incidents…" autocomplete="off">
+          <kbd aria-label="Command K">⌘ K</kbd>
+        </form>
+        <div class="topbar-actions">
+          <output class="environment-chip" aria-label="Current environment">production</output>
+          <button class="button button--quiet" type="button" data-open-dialog="command-palette">Commands</button>
+          <button class="avatar-button" type="button" aria-label="Open operator menu">KL</button>
+        </div>
+      </header>
+      <aside class="sidebar" aria-label="Primary navigation">
+        <nav class="primary-nav">
+          <a class="nav-item is-active" href="#overview" aria-current="page"><span>Overview</span><small>48</small></a>
+          <a class="nav-item" href="#services"><span>Services</span><small>48</small></a>
+          <a class="nav-item" href="#rollouts"><span>Rollouts</span><small>36</small></a>
+          <a class="nav-item" href="#incidents"><span>Incidents</span><small>24</small></a>
+          <a class="nav-item" href="#audit"><span>Audit</span><small>live</small></a>
+        </nav>
+        <section class="sidebar-summary" aria-labelledby="budget-title">
+          <h2 id="budget-title">Fleet error budget</h2>
+          <strong>91.4%</strong>
+          <meter min="0" max="100" low="30" high="70" optimum="100" value="91.4">91.4%</meter>
+          <p>Thirty-day rolling window</p>
+        </section>
+      </aside>
+      <main id="workspace" class="workspace" tabindex="-1">
+        <section id="overview" class="page-heading">
+          <div>
+            <p class="eyebrow">Wednesday, 12 August 2026</p>
+            <h1>Fleet overview</h1>
+            <p>Release health, tenant exposure, and incident response across four production regions.</p>
+          </div>
+          <div class="page-actions">
+            <button class="button button--secondary" type="button">Export snapshot</button>
+            <button class="button button--primary" type="button" data-open-dialog="new-rollout">Plan rollout</button>
+          </div>
+        </section>
+        <section class="metric-grid" aria-label="Fleet health metrics">
+          <article class="metric-card" data-tone="positive">
+            <h2>Healthy services</h2>
+            <strong>41 / 48</strong>
+            <p>+2 since 09:00</p>
+            <span class="metric-sparkline" aria-hidden="true"></span>
+          </article>
+          <article class="metric-card" data-tone="neutral">
+            <h2>Active rollouts</h2>
+            <strong>18</strong>
+            <p>4 awaiting approval</p>
+            <span class="metric-sparkline" aria-hidden="true"></span>
+          </article>
+          <article class="metric-card" data-tone="negative">
+            <h2>Open incidents</h2>
+            <strong>6</strong>
+            <p>1 critical</p>
+            <span class="metric-sparkline" aria-hidden="true"></span>
+          </article>
+          <article class="metric-card" data-tone="positive">
+            <h2>Change success</h2>
+            <strong>98.7%</strong>
+            <p>+0.4% this week</p>
+            <span class="metric-sparkline" aria-hidden="true"></span>
+          </article>
+        </section>
+        <section id="services" class="panel" aria-labelledby="services-title">
+          <header class="panel-header">
+            <div>
+              <p class="eyebrow">Runtime inventory</p>
+              <h2 id="services-title">Production services</h2>
+            </div>
+            <label class="inline-field">
+              <span>Filter</span>
+              <input type="search" name="service-filter" placeholder="Name, team, or region">
+            </label>
+          </header>
+          <div class="table-scroll" tabindex="0">
+            <table class="data-table">
+              <caption>Current service revisions and reliability indicators</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Service</th>
+                  <th scope="col">Region</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Revision</th>
+                  <th scope="col">p99</th>
+                  <th scope="col">Budget</th>
+                  <th scope="col">State</th>
+                  <th scope="col"><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="service-access-gateway-ap-northeast-2-01" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-access-gateway-ap-northeast-2-01">access-gateway</a>
+                    <small>3 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>identity</td>
+                  <td><code>2026.08.120</code></td>
+                  <td><data value="42">42 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="99.7">99.7%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for access-gateway in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-artifact-registry-ap-southeast-1-02" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-artifact-registry-ap-southeast-1-02">artifact-registry</a>
+                    <small>4 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>release-platform</td>
+                  <td><code>2026.08.121</code></td>
+                  <td><data value="79">79 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="98.3">98.3%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for artifact-registry in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-audit-ledger-eu-central-1-03" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-audit-ledger-eu-central-1-03">audit-ledger</a>
+                    <small>5 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>runtime-reliability</td>
+                  <td><code>2026.08.122</code></td>
+                  <td><data value="116">116 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="97.0">97.0%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for audit-ledger in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-billing-meter-us-east-1-04" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-billing-meter-us-east-1-04">billing-meter</a>
+                    <small>6 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>developer-experience</td>
+                  <td><code>2026.08.123</code></td>
+                  <td><data value="153">153 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="95.6">95.6%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for billing-meter in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-change-planner-ap-northeast-2-05" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-change-planner-ap-northeast-2-05">change-planner</a>
+                    <small>7 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>security-engineering</td>
+                  <td><code>2026.08.124</code></td>
+                  <td><data value="190">190 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="94.2">94.2%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for change-planner in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-config-resolver-ap-southeast-1-06" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-config-resolver-ap-southeast-1-06">config-resolver</a>
+                    <small>8 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>data-foundation</td>
+                  <td><code>2026.08.125</code></td>
+                  <td><data value="227">227 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="92.9">92.9%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for config-resolver in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-deployment-coordinator-eu-central-1-07" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-deployment-coordinator-eu-central-1-07">deployment-coordinator</a>
+                    <small>3 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>identity</td>
+                  <td><code>2026.08.126</code></td>
+                  <td><data value="264">264 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="91.5">91.5%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for deployment-coordinator in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-event-router-us-east-1-08" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-event-router-us-east-1-08">event-router</a>
+                    <small>4 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>release-platform</td>
+                  <td><code>2026.08.127</code></td>
+                  <td><data value="301">301 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="90.1">90.1%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for event-router in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-flag-evaluator-ap-northeast-2-09" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-flag-evaluator-ap-northeast-2-09">flag-evaluator</a>
+                    <small>5 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>runtime-reliability</td>
+                  <td><code>2026.08.128</code></td>
+                  <td><data value="338">338 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="88.7">88.7%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for flag-evaluator in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-health-aggregator-ap-southeast-1-10" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-health-aggregator-ap-southeast-1-10">health-aggregator</a>
+                    <small>6 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>developer-experience</td>
+                  <td><code>2026.08.129</code></td>
+                  <td><data value="375">375 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="87.4">87.4%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for health-aggregator in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-incident-broker-eu-central-1-11" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-incident-broker-eu-central-1-11">incident-broker</a>
+                    <small>7 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>security-engineering</td>
+                  <td><code>2026.08.130</code></td>
+                  <td><data value="412">412 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="86.0">86.0%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for incident-broker in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-policy-engine-us-east-1-12" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-policy-engine-us-east-1-12">policy-engine</a>
+                    <small>8 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>data-foundation</td>
+                  <td><code>2026.08.131</code></td>
+                  <td><data value="449">449 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="84.6">84.6%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for policy-engine in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-access-gateway-ap-northeast-2-13" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-access-gateway-ap-northeast-2-13">access-gateway</a>
+                    <small>3 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>identity</td>
+                  <td><code>2026.08.132</code></td>
+                  <td><data value="76">76 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="83.3">83.3%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for access-gateway in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-artifact-registry-ap-southeast-1-14" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-artifact-registry-ap-southeast-1-14">artifact-registry</a>
+                    <small>4 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>release-platform</td>
+                  <td><code>2026.08.133</code></td>
+                  <td><data value="113">113 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="81.9">81.9%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for artifact-registry in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-audit-ledger-eu-central-1-15" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-audit-ledger-eu-central-1-15">audit-ledger</a>
+                    <small>5 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>runtime-reliability</td>
+                  <td><code>2026.08.134</code></td>
+                  <td><data value="150">150 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="80.5">80.5%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for audit-ledger in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-billing-meter-us-east-1-16" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-billing-meter-us-east-1-16">billing-meter</a>
+                    <small>6 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>developer-experience</td>
+                  <td><code>2026.08.135</code></td>
+                  <td><data value="187">187 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="79.2">79.2%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for billing-meter in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-change-planner-ap-northeast-2-17" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-change-planner-ap-northeast-2-17">change-planner</a>
+                    <small>7 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>security-engineering</td>
+                  <td><code>2026.08.136</code></td>
+                  <td><data value="224">224 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="77.8">77.8%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for change-planner in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-config-resolver-ap-southeast-1-18" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-config-resolver-ap-southeast-1-18">config-resolver</a>
+                    <small>8 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>data-foundation</td>
+                  <td><code>2026.08.137</code></td>
+                  <td><data value="261">261 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="76.4">76.4%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for config-resolver in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-deployment-coordinator-eu-central-1-19" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-deployment-coordinator-eu-central-1-19">deployment-coordinator</a>
+                    <small>3 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>identity</td>
+                  <td><code>2026.08.138</code></td>
+                  <td><data value="298">298 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="75.0">75.0%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for deployment-coordinator in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-event-router-us-east-1-20" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-event-router-us-east-1-20">event-router</a>
+                    <small>4 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>release-platform</td>
+                  <td><code>2026.08.139</code></td>
+                  <td><data value="335">335 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="73.7">73.7%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for event-router in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-flag-evaluator-ap-northeast-2-21" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-flag-evaluator-ap-northeast-2-21">flag-evaluator</a>
+                    <small>5 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>runtime-reliability</td>
+                  <td><code>2026.08.140</code></td>
+                  <td><data value="372">372 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="72.3">72.3%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for flag-evaluator in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-health-aggregator-ap-southeast-1-22" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-health-aggregator-ap-southeast-1-22">health-aggregator</a>
+                    <small>6 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>developer-experience</td>
+                  <td><code>2026.08.141</code></td>
+                  <td><data value="409">409 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="70.9">70.9%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for health-aggregator in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-incident-broker-eu-central-1-23" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-incident-broker-eu-central-1-23">incident-broker</a>
+                    <small>7 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>security-engineering</td>
+                  <td><code>2026.08.142</code></td>
+                  <td><data value="446">446 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="69.6">69.6%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for incident-broker in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-policy-engine-us-east-1-24" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-policy-engine-us-east-1-24">policy-engine</a>
+                    <small>8 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>data-foundation</td>
+                  <td><code>2026.08.143</code></td>
+                  <td><data value="73">73 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="68.2">68.2%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for policy-engine in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-access-gateway-ap-northeast-2-25" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-access-gateway-ap-northeast-2-25">access-gateway</a>
+                    <small>3 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>identity</td>
+                  <td><code>2026.08.144</code></td>
+                  <td><data value="110">110 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="66.8">66.8%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for access-gateway in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-artifact-registry-ap-southeast-1-26" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-artifact-registry-ap-southeast-1-26">artifact-registry</a>
+                    <small>4 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>release-platform</td>
+                  <td><code>2026.08.145</code></td>
+                  <td><data value="147">147 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="65.5">65.5%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for artifact-registry in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-audit-ledger-eu-central-1-27" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-audit-ledger-eu-central-1-27">audit-ledger</a>
+                    <small>5 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>runtime-reliability</td>
+                  <td><code>2026.08.146</code></td>
+                  <td><data value="184">184 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="64.1">64.1%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for audit-ledger in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-billing-meter-us-east-1-28" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-billing-meter-us-east-1-28">billing-meter</a>
+                    <small>6 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>developer-experience</td>
+                  <td><code>2026.08.147</code></td>
+                  <td><data value="221">221 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="62.7">62.7%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for billing-meter in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-change-planner-ap-northeast-2-29" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-change-planner-ap-northeast-2-29">change-planner</a>
+                    <small>7 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>security-engineering</td>
+                  <td><code>2026.08.148</code></td>
+                  <td><data value="258">258 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="61.3">61.3%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for change-planner in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-config-resolver-ap-southeast-1-30" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-config-resolver-ap-southeast-1-30">config-resolver</a>
+                    <small>8 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>data-foundation</td>
+                  <td><code>2026.08.149</code></td>
+                  <td><data value="295">295 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="60.0">60.0%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for config-resolver in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-deployment-coordinator-eu-central-1-31" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-deployment-coordinator-eu-central-1-31">deployment-coordinator</a>
+                    <small>3 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>identity</td>
+                  <td><code>2026.08.150</code></td>
+                  <td><data value="332">332 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="58.6">58.6%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for deployment-coordinator in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-event-router-us-east-1-32" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-event-router-us-east-1-32">event-router</a>
+                    <small>4 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>release-platform</td>
+                  <td><code>2026.08.151</code></td>
+                  <td><data value="369">369 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="57.2">57.2%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for event-router in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-flag-evaluator-ap-northeast-2-33" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-flag-evaluator-ap-northeast-2-33">flag-evaluator</a>
+                    <small>5 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>runtime-reliability</td>
+                  <td><code>2026.08.152</code></td>
+                  <td><data value="406">406 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="55.9">55.9%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for flag-evaluator in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-health-aggregator-ap-southeast-1-34" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-health-aggregator-ap-southeast-1-34">health-aggregator</a>
+                    <small>6 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>developer-experience</td>
+                  <td><code>2026.08.153</code></td>
+                  <td><data value="443">443 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="54.5">54.5%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for health-aggregator in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-incident-broker-eu-central-1-35" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-incident-broker-eu-central-1-35">incident-broker</a>
+                    <small>7 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>security-engineering</td>
+                  <td><code>2026.08.154</code></td>
+                  <td><data value="70">70 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="53.1">53.1%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for incident-broker in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-policy-engine-us-east-1-36" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-policy-engine-us-east-1-36">policy-engine</a>
+                    <small>8 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>data-foundation</td>
+                  <td><code>2026.08.155</code></td>
+                  <td><data value="107">107 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="51.8">51.8%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for policy-engine in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-access-gateway-ap-northeast-2-37" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-access-gateway-ap-northeast-2-37">access-gateway</a>
+                    <small>3 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>identity</td>
+                  <td><code>2026.08.156</code></td>
+                  <td><data value="144">144 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="50.4">50.4%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for access-gateway in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-artifact-registry-ap-southeast-1-38" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-artifact-registry-ap-southeast-1-38">artifact-registry</a>
+                    <small>4 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>release-platform</td>
+                  <td><code>2026.08.157</code></td>
+                  <td><data value="181">181 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="49.0">49.0%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for artifact-registry in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-audit-ledger-eu-central-1-39" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-audit-ledger-eu-central-1-39">audit-ledger</a>
+                    <small>5 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>runtime-reliability</td>
+                  <td><code>2026.08.158</code></td>
+                  <td><data value="218">218 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="47.6">47.6%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for audit-ledger in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-billing-meter-us-east-1-40" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-billing-meter-us-east-1-40">billing-meter</a>
+                    <small>6 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>developer-experience</td>
+                  <td><code>2026.08.159</code></td>
+                  <td><data value="255">255 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="46.3">46.3%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for billing-meter in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-change-planner-ap-northeast-2-41" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-change-planner-ap-northeast-2-41">change-planner</a>
+                    <small>7 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>security-engineering</td>
+                  <td><code>2026.08.160</code></td>
+                  <td><data value="292">292 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="44.9">44.9%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for change-planner in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-config-resolver-ap-southeast-1-42" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-config-resolver-ap-southeast-1-42">config-resolver</a>
+                    <small>8 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>data-foundation</td>
+                  <td><code>2026.08.161</code></td>
+                  <td><data value="329">329 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="43.5">43.5%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for config-resolver in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-deployment-coordinator-eu-central-1-43" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-deployment-coordinator-eu-central-1-43">deployment-coordinator</a>
+                    <small>3 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>identity</td>
+                  <td><code>2026.08.162</code></td>
+                  <td><data value="366">366 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="42.2">42.2%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for deployment-coordinator in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-event-router-us-east-1-44" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-event-router-us-east-1-44">event-router</a>
+                    <small>4 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>release-platform</td>
+                  <td><code>2026.08.163</code></td>
+                  <td><data value="403">403 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="40.8">40.8%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for event-router in us-east-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-flag-evaluator-ap-northeast-2-45" data-state="healthy" data-region="ap-northeast-2">
+                  <th scope="row">
+                    <a href="#service-flag-evaluator-ap-northeast-2-45">flag-evaluator</a>
+                    <small>5 replicas</small>
+                  </th>
+                  <td><code>ap-northeast-2</code></td>
+                  <td>runtime-reliability</td>
+                  <td><code>2026.08.164</code></td>
+                  <td><data value="440">440 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="39.4">39.4%</meter></td>
+                  <td><span class="status-badge status-badge--healthy">healthy</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for flag-evaluator in ap-northeast-2">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-health-aggregator-ap-southeast-1-46" data-state="paused" data-region="ap-southeast-1">
+                  <th scope="row">
+                    <a href="#service-health-aggregator-ap-southeast-1-46">health-aggregator</a>
+                    <small>6 replicas</small>
+                  </th>
+                  <td><code>ap-southeast-1</code></td>
+                  <td>developer-experience</td>
+                  <td><code>2026.08.165</code></td>
+                  <td><data value="67">67 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="38.0">38.0%</meter></td>
+                  <td><span class="status-badge status-badge--paused">paused</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for health-aggregator in ap-southeast-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-incident-broker-eu-central-1-47" data-state="degraded" data-region="eu-central-1">
+                  <th scope="row">
+                    <a href="#service-incident-broker-eu-central-1-47">incident-broker</a>
+                    <small>7 replicas</small>
+                  </th>
+                  <td><code>eu-central-1</code></td>
+                  <td>security-engineering</td>
+                  <td><code>2026.08.166</code></td>
+                  <td><data value="104">104 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="36.7">36.7%</meter></td>
+                  <td><span class="status-badge status-badge--degraded">degraded</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for incident-broker in eu-central-1">•••</button>
+                  </td>
+                </tr>
+                <tr id="service-policy-engine-us-east-1-48" data-state="deploying" data-region="us-east-1">
+                  <th scope="row">
+                    <a href="#service-policy-engine-us-east-1-48">policy-engine</a>
+                    <small>8 replicas</small>
+                  </th>
+                  <td><code>us-east-1</code></td>
+                  <td>data-foundation</td>
+                  <td><code>2026.08.167</code></td>
+                  <td><data value="141">141 ms</data></td>
+                  <td><meter min="0" max="100" low="30" high="70" optimum="100" value="35.3">35.3%</meter></td>
+                  <td><span class="status-badge status-badge--deploying">deploying</span></td>
+                  <td>
+                    <button class="icon-button" type="button" aria-label="Open actions for policy-engine in us-east-1">•••</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section id="rollouts" class="panel" aria-labelledby="rollouts-title">
+          <header class="panel-header">
+            <div>
+              <p class="eyebrow">Progressive delivery</p>
+              <h2 id="rollouts-title">Tenant feature rollouts</h2>
+            </div>
+            <button class="button button--secondary" type="button">Review approvals</button>
+          </header>
+          <div class="rollout-grid">
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T08:00:00+08:00">08:00</time>
+              </header>
+              <h3><code>release.access-gateway.adaptive-batching</code></h3>
+              <p>Tenant <strong>northwind</strong> · owner runtime-reliability</p>
+              <label for="rollout-0">Exposure <output>1%</output></label>
+              <progress id="rollout-0" max="100" value="1">1%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T09:07:00+08:00">09:07</time>
+              </header>
+              <h3><code>release.artifact-registry.async-audit</code></h3>
+              <p>Tenant <strong>papertrail</strong> · owner developer-experience</p>
+              <label for="rollout-1">Exposure <output>5%</output></label>
+              <progress id="rollout-1" max="100" value="5">5%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T10:14:00+08:00">10:14</time>
+              </header>
+              <h3><code>release.audit-ledger.hedged-reads</code></h3>
+              <p>Tenant <strong>solstice</strong> · owner security-engineering</p>
+              <label for="rollout-2">Exposure <output>10%</output></label>
+              <progress id="rollout-2" max="100" value="10">10%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T11:21:00+08:00">11:21</time>
+              </header>
+              <h3><code>release.billing-meter.adaptive-batching</code></h3>
+              <p>Tenant <strong>harbor</strong> · owner data-foundation</p>
+              <label for="rollout-3">Exposure <output>25%</output></label>
+              <progress id="rollout-3" max="100" value="25">25%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T12:28:00+08:00">12:28</time>
+              </header>
+              <h3><code>release.change-planner.async-audit</code></h3>
+              <p>Tenant <strong>atlas</strong> · owner identity</p>
+              <label for="rollout-4">Exposure <output>50%</output></label>
+              <progress id="rollout-4" max="100" value="50">50%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T13:35:00+08:00">13:35</time>
+              </header>
+              <h3><code>release.config-resolver.hedged-reads</code></h3>
+              <p>Tenant <strong>juniper</strong> · owner release-platform</p>
+              <label for="rollout-5">Exposure <output>100%</output></label>
+              <progress id="rollout-5" max="100" value="100">100%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T14:42:00+08:00">14:42</time>
+              </header>
+              <h3><code>release.deployment-coordinator.adaptive-batching</code></h3>
+              <p>Tenant <strong>lattice</strong> · owner runtime-reliability</p>
+              <label for="rollout-6">Exposure <output>1%</output></label>
+              <progress id="rollout-6" max="100" value="1">1%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T15:49:00+08:00">15:49</time>
+              </header>
+              <h3><code>release.event-router.async-audit</code></h3>
+              <p>Tenant <strong>meridian</strong> · owner developer-experience</p>
+              <label for="rollout-7">Exposure <output>5%</output></label>
+              <progress id="rollout-7" max="100" value="5">5%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T16:56:00+08:00">16:56</time>
+              </header>
+              <h3><code>release.flag-evaluator.hedged-reads</code></h3>
+              <p>Tenant <strong>northwind</strong> · owner security-engineering</p>
+              <label for="rollout-8">Exposure <output>10%</output></label>
+              <progress id="rollout-8" max="100" value="10">10%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T17:03:00+08:00">17:03</time>
+              </header>
+              <h3><code>release.health-aggregator.adaptive-batching</code></h3>
+              <p>Tenant <strong>papertrail</strong> · owner data-foundation</p>
+              <label for="rollout-9">Exposure <output>25%</output></label>
+              <progress id="rollout-9" max="100" value="25">25%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T08:10:00+08:00">08:10</time>
+              </header>
+              <h3><code>release.incident-broker.async-audit</code></h3>
+              <p>Tenant <strong>solstice</strong> · owner identity</p>
+              <label for="rollout-10">Exposure <output>50%</output></label>
+              <progress id="rollout-10" max="100" value="50">50%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T09:17:00+08:00">09:17</time>
+              </header>
+              <h3><code>release.policy-engine.hedged-reads</code></h3>
+              <p>Tenant <strong>harbor</strong> · owner release-platform</p>
+              <label for="rollout-11">Exposure <output>100%</output></label>
+              <progress id="rollout-11" max="100" value="100">100%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T10:24:00+08:00">10:24</time>
+              </header>
+              <h3><code>release.access-gateway.adaptive-batching</code></h3>
+              <p>Tenant <strong>atlas</strong> · owner runtime-reliability</p>
+              <label for="rollout-12">Exposure <output>1%</output></label>
+              <progress id="rollout-12" max="100" value="1">1%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T11:31:00+08:00">11:31</time>
+              </header>
+              <h3><code>release.artifact-registry.async-audit</code></h3>
+              <p>Tenant <strong>juniper</strong> · owner developer-experience</p>
+              <label for="rollout-13">Exposure <output>5%</output></label>
+              <progress id="rollout-13" max="100" value="5">5%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T12:38:00+08:00">12:38</time>
+              </header>
+              <h3><code>release.audit-ledger.hedged-reads</code></h3>
+              <p>Tenant <strong>lattice</strong> · owner security-engineering</p>
+              <label for="rollout-14">Exposure <output>10%</output></label>
+              <progress id="rollout-14" max="100" value="10">10%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T13:45:00+08:00">13:45</time>
+              </header>
+              <h3><code>release.billing-meter.adaptive-batching</code></h3>
+              <p>Tenant <strong>meridian</strong> · owner data-foundation</p>
+              <label for="rollout-15">Exposure <output>25%</output></label>
+              <progress id="rollout-15" max="100" value="25">25%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T14:52:00+08:00">14:52</time>
+              </header>
+              <h3><code>release.change-planner.async-audit</code></h3>
+              <p>Tenant <strong>northwind</strong> · owner identity</p>
+              <label for="rollout-16">Exposure <output>50%</output></label>
+              <progress id="rollout-16" max="100" value="50">50%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T15:59:00+08:00">15:59</time>
+              </header>
+              <h3><code>release.config-resolver.hedged-reads</code></h3>
+              <p>Tenant <strong>papertrail</strong> · owner release-platform</p>
+              <label for="rollout-17">Exposure <output>100%</output></label>
+              <progress id="rollout-17" max="100" value="100">100%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T16:06:00+08:00">16:06</time>
+              </header>
+              <h3><code>release.deployment-coordinator.adaptive-batching</code></h3>
+              <p>Tenant <strong>solstice</strong> · owner runtime-reliability</p>
+              <label for="rollout-18">Exposure <output>1%</output></label>
+              <progress id="rollout-18" max="100" value="1">1%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T17:13:00+08:00">17:13</time>
+              </header>
+              <h3><code>release.event-router.async-audit</code></h3>
+              <p>Tenant <strong>harbor</strong> · owner developer-experience</p>
+              <label for="rollout-19">Exposure <output>5%</output></label>
+              <progress id="rollout-19" max="100" value="5">5%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T08:20:00+08:00">08:20</time>
+              </header>
+              <h3><code>release.flag-evaluator.hedged-reads</code></h3>
+              <p>Tenant <strong>atlas</strong> · owner security-engineering</p>
+              <label for="rollout-20">Exposure <output>10%</output></label>
+              <progress id="rollout-20" max="100" value="10">10%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T09:27:00+08:00">09:27</time>
+              </header>
+              <h3><code>release.health-aggregator.adaptive-batching</code></h3>
+              <p>Tenant <strong>juniper</strong> · owner data-foundation</p>
+              <label for="rollout-21">Exposure <output>25%</output></label>
+              <progress id="rollout-21" max="100" value="25">25%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T10:34:00+08:00">10:34</time>
+              </header>
+              <h3><code>release.incident-broker.async-audit</code></h3>
+              <p>Tenant <strong>lattice</strong> · owner identity</p>
+              <label for="rollout-22">Exposure <output>50%</output></label>
+              <progress id="rollout-22" max="100" value="50">50%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T11:41:00+08:00">11:41</time>
+              </header>
+              <h3><code>release.policy-engine.hedged-reads</code></h3>
+              <p>Tenant <strong>meridian</strong> · owner release-platform</p>
+              <label for="rollout-23">Exposure <output>100%</output></label>
+              <progress id="rollout-23" max="100" value="100">100%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T12:48:00+08:00">12:48</time>
+              </header>
+              <h3><code>release.access-gateway.adaptive-batching</code></h3>
+              <p>Tenant <strong>northwind</strong> · owner runtime-reliability</p>
+              <label for="rollout-24">Exposure <output>1%</output></label>
+              <progress id="rollout-24" max="100" value="1">1%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T13:55:00+08:00">13:55</time>
+              </header>
+              <h3><code>release.artifact-registry.async-audit</code></h3>
+              <p>Tenant <strong>papertrail</strong> · owner developer-experience</p>
+              <label for="rollout-25">Exposure <output>5%</output></label>
+              <progress id="rollout-25" max="100" value="5">5%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T14:02:00+08:00">14:02</time>
+              </header>
+              <h3><code>release.audit-ledger.hedged-reads</code></h3>
+              <p>Tenant <strong>solstice</strong> · owner security-engineering</p>
+              <label for="rollout-26">Exposure <output>10%</output></label>
+              <progress id="rollout-26" max="100" value="10">10%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T15:09:00+08:00">15:09</time>
+              </header>
+              <h3><code>release.billing-meter.adaptive-batching</code></h3>
+              <p>Tenant <strong>harbor</strong> · owner data-foundation</p>
+              <label for="rollout-27">Exposure <output>25%</output></label>
+              <progress id="rollout-27" max="100" value="25">25%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T16:16:00+08:00">16:16</time>
+              </header>
+              <h3><code>release.change-planner.async-audit</code></h3>
+              <p>Tenant <strong>atlas</strong> · owner identity</p>
+              <label for="rollout-28">Exposure <output>50%</output></label>
+              <progress id="rollout-28" max="100" value="50">50%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T17:23:00+08:00">17:23</time>
+              </header>
+              <h3><code>release.config-resolver.hedged-reads</code></h3>
+              <p>Tenant <strong>juniper</strong> · owner release-platform</p>
+              <label for="rollout-29">Exposure <output>100%</output></label>
+              <progress id="rollout-29" max="100" value="100">100%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T08:30:00+08:00">08:30</time>
+              </header>
+              <h3><code>release.deployment-coordinator.adaptive-batching</code></h3>
+              <p>Tenant <strong>lattice</strong> · owner runtime-reliability</p>
+              <label for="rollout-30">Exposure <output>1%</output></label>
+              <progress id="rollout-30" max="100" value="1">1%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T09:37:00+08:00">09:37</time>
+              </header>
+              <h3><code>release.event-router.async-audit</code></h3>
+              <p>Tenant <strong>meridian</strong> · owner developer-experience</p>
+              <label for="rollout-31">Exposure <output>5%</output></label>
+              <progress id="rollout-31" max="100" value="5">5%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T10:44:00+08:00">10:44</time>
+              </header>
+              <h3><code>release.flag-evaluator.hedged-reads</code></h3>
+              <p>Tenant <strong>northwind</strong> · owner security-engineering</p>
+              <label for="rollout-32">Exposure <output>10%</output></label>
+              <progress id="rollout-32" max="100" value="10">10%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="running">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--running">running</span>
+                <time datetime="2026-08-12T11:51:00+08:00">11:51</time>
+              </header>
+              <h3><code>release.health-aggregator.adaptive-batching</code></h3>
+              <p>Tenant <strong>papertrail</strong> · owner data-foundation</p>
+              <label for="rollout-33">Exposure <output>25%</output></label>
+              <progress id="rollout-33" max="100" value="25">25%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="paused">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--paused">paused</span>
+                <time datetime="2026-08-12T12:58:00+08:00">12:58</time>
+              </header>
+              <h3><code>release.incident-broker.async-audit</code></h3>
+              <p>Tenant <strong>solstice</strong> · owner identity</p>
+              <label for="rollout-34">Exposure <output>50%</output></label>
+              <progress id="rollout-34" max="100" value="50">50%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+            <article class="rollout-card" data-state="completed">
+              <header class="rollout-card__header">
+                <span class="status-badge status-badge--completed">completed</span>
+                <time datetime="2026-08-12T13:05:00+08:00">13:05</time>
+              </header>
+              <h3><code>release.policy-engine.hedged-reads</code></h3>
+              <p>Tenant <strong>harbor</strong> · owner release-platform</p>
+              <label for="rollout-35">Exposure <output>100%</output></label>
+              <progress id="rollout-35" max="100" value="100">100%</progress>
+              <footer class="rollout-card__actions">
+                <button class="button button--quiet" type="button">Inspect</button>
+                <button class="button button--quiet" type="button">Pause</button>
+              </footer>
+            </article>
+          </div>
+        </section>
+        <section id="incidents" class="panel" aria-labelledby="incidents-title">
+          <header class="panel-header">
+            <div>
+              <p class="eyebrow">Operational response</p>
+              <h2 id="incidents-title">Incident timeline</h2>
+            </div>
+            <button class="button button--secondary" type="button">Open runbooks</button>
+          </header>
+          <ol class="incident-list">
+            <li class="incident-item" data-severity="info">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08120</strong>
+                  <span class="status-badge status-badge--info">info</span>
+                  <time datetime="2026-08-12T07:00:00+08:00">07:00</time>
+                </header>
+                <h3>Elevated p99 latency during regional failover</h3>
+                <p><a href="#service-access-gateway-ap-northeast-2-01">access-gateway</a> in <code>ap-northeast-2</code> is detected.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-southeast-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="warning">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08121</strong>
+                  <span class="status-badge status-badge--warning">warning</span>
+                  <time datetime="2026-08-12T08:00:00+08:00">08:00</time>
+                </header>
+                <h3>Audit delivery lag exceeded the ten-minute SLO</h3>
+                <p><a href="#service-config-resolver-ap-southeast-1-06">config-resolver</a> in <code>ap-southeast-1</code> is mitigating.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to eu-central-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="critical">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08122</strong>
+                  <span class="status-badge status-badge--critical">critical</span>
+                  <time datetime="2026-08-12T09:00:00+08:00">09:00</time>
+                </header>
+                <h3>Canary error rate crossed the automatic pause threshold</h3>
+                <p><a href="#service-incident-broker-eu-central-1-11">incident-broker</a> in <code>eu-central-1</code> is monitoring.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to us-east-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="info">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08123</strong>
+                  <span class="status-badge status-badge--info">info</span>
+                  <time datetime="2026-08-12T10:00:00+08:00">10:00</time>
+                </header>
+                <h3>Policy cache served stale tenant constraints</h3>
+                <p><a href="#service-billing-meter-us-east-1-16">billing-meter</a> in <code>us-east-1</code> is resolved.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-northeast-2; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="warning">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08124</strong>
+                  <span class="status-badge status-badge--warning">warning</span>
+                  <time datetime="2026-08-12T11:00:00+08:00">11:00</time>
+                </header>
+                <h3>Elevated p99 latency during regional failover</h3>
+                <p><a href="#service-flag-evaluator-ap-northeast-2-21">flag-evaluator</a> in <code>ap-northeast-2</code> is detected.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-southeast-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="critical">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08125</strong>
+                  <span class="status-badge status-badge--critical">critical</span>
+                  <time datetime="2026-08-12T12:00:00+08:00">12:00</time>
+                </header>
+                <h3>Audit delivery lag exceeded the ten-minute SLO</h3>
+                <p><a href="#service-artifact-registry-ap-southeast-1-26">artifact-registry</a> in <code>ap-southeast-1</code> is mitigating.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to eu-central-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="info">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08126</strong>
+                  <span class="status-badge status-badge--info">info</span>
+                  <time datetime="2026-08-12T13:00:00+08:00">13:00</time>
+                </header>
+                <h3>Canary error rate crossed the automatic pause threshold</h3>
+                <p><a href="#service-deployment-coordinator-eu-central-1-31">deployment-coordinator</a> in <code>eu-central-1</code> is monitoring.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to us-east-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="warning">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08127</strong>
+                  <span class="status-badge status-badge--warning">warning</span>
+                  <time datetime="2026-08-12T14:00:00+08:00">14:00</time>
+                </header>
+                <h3>Policy cache served stale tenant constraints</h3>
+                <p><a href="#service-policy-engine-us-east-1-36">policy-engine</a> in <code>us-east-1</code> is resolved.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-northeast-2; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="critical">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08128</strong>
+                  <span class="status-badge status-badge--critical">critical</span>
+                  <time datetime="2026-08-12T15:00:00+08:00">15:00</time>
+                </header>
+                <h3>Elevated p99 latency during regional failover</h3>
+                <p><a href="#service-change-planner-ap-northeast-2-41">change-planner</a> in <code>ap-northeast-2</code> is detected.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-southeast-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="info">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08129</strong>
+                  <span class="status-badge status-badge--info">info</span>
+                  <time datetime="2026-08-12T16:00:00+08:00">16:00</time>
+                </header>
+                <h3>Audit delivery lag exceeded the ten-minute SLO</h3>
+                <p><a href="#service-health-aggregator-ap-southeast-1-46">health-aggregator</a> in <code>ap-southeast-1</code> is mitigating.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to eu-central-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="warning">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08130</strong>
+                  <span class="status-badge status-badge--warning">warning</span>
+                  <time datetime="2026-08-12T17:00:00+08:00">17:00</time>
+                </header>
+                <h3>Canary error rate crossed the automatic pause threshold</h3>
+                <p><a href="#service-audit-ledger-eu-central-1-03">audit-ledger</a> in <code>eu-central-1</code> is monitoring.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to us-east-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="critical">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08131</strong>
+                  <span class="status-badge status-badge--critical">critical</span>
+                  <time datetime="2026-08-12T07:00:00+08:00">07:00</time>
+                </header>
+                <h3>Policy cache served stale tenant constraints</h3>
+                <p><a href="#service-event-router-us-east-1-08">event-router</a> in <code>us-east-1</code> is resolved.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-northeast-2; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="info">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08132</strong>
+                  <span class="status-badge status-badge--info">info</span>
+                  <time datetime="2026-08-12T08:00:00+08:00">08:00</time>
+                </header>
+                <h3>Elevated p99 latency during regional failover</h3>
+                <p><a href="#service-access-gateway-ap-northeast-2-13">access-gateway</a> in <code>ap-northeast-2</code> is detected.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-southeast-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="warning">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08133</strong>
+                  <span class="status-badge status-badge--warning">warning</span>
+                  <time datetime="2026-08-12T09:00:00+08:00">09:00</time>
+                </header>
+                <h3>Audit delivery lag exceeded the ten-minute SLO</h3>
+                <p><a href="#service-config-resolver-ap-southeast-1-18">config-resolver</a> in <code>ap-southeast-1</code> is mitigating.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to eu-central-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="critical">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08134</strong>
+                  <span class="status-badge status-badge--critical">critical</span>
+                  <time datetime="2026-08-12T10:00:00+08:00">10:00</time>
+                </header>
+                <h3>Canary error rate crossed the automatic pause threshold</h3>
+                <p><a href="#service-incident-broker-eu-central-1-23">incident-broker</a> in <code>eu-central-1</code> is monitoring.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to us-east-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="info">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08135</strong>
+                  <span class="status-badge status-badge--info">info</span>
+                  <time datetime="2026-08-12T11:00:00+08:00">11:00</time>
+                </header>
+                <h3>Policy cache served stale tenant constraints</h3>
+                <p><a href="#service-billing-meter-us-east-1-28">billing-meter</a> in <code>us-east-1</code> is resolved.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-northeast-2; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="warning">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08136</strong>
+                  <span class="status-badge status-badge--warning">warning</span>
+                  <time datetime="2026-08-12T12:00:00+08:00">12:00</time>
+                </header>
+                <h3>Elevated p99 latency during regional failover</h3>
+                <p><a href="#service-flag-evaluator-ap-northeast-2-33">flag-evaluator</a> in <code>ap-northeast-2</code> is detected.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-southeast-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="critical">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08137</strong>
+                  <span class="status-badge status-badge--critical">critical</span>
+                  <time datetime="2026-08-12T13:00:00+08:00">13:00</time>
+                </header>
+                <h3>Audit delivery lag exceeded the ten-minute SLO</h3>
+                <p><a href="#service-artifact-registry-ap-southeast-1-38">artifact-registry</a> in <code>ap-southeast-1</code> is mitigating.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to eu-central-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="info">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08138</strong>
+                  <span class="status-badge status-badge--info">info</span>
+                  <time datetime="2026-08-12T14:00:00+08:00">14:00</time>
+                </header>
+                <h3>Canary error rate crossed the automatic pause threshold</h3>
+                <p><a href="#service-deployment-coordinator-eu-central-1-43">deployment-coordinator</a> in <code>eu-central-1</code> is monitoring.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to us-east-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="warning">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08139</strong>
+                  <span class="status-badge status-badge--warning">warning</span>
+                  <time datetime="2026-08-12T15:00:00+08:00">15:00</time>
+                </header>
+                <h3>Policy cache served stale tenant constraints</h3>
+                <p><a href="#service-policy-engine-us-east-1-48">policy-engine</a> in <code>us-east-1</code> is resolved.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-northeast-2; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="critical">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08140</strong>
+                  <span class="status-badge status-badge--critical">critical</span>
+                  <time datetime="2026-08-12T16:00:00+08:00">16:00</time>
+                </header>
+                <h3>Elevated p99 latency during regional failover</h3>
+                <p><a href="#service-change-planner-ap-northeast-2-05">change-planner</a> in <code>ap-northeast-2</code> is detected.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-southeast-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="info">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08141</strong>
+                  <span class="status-badge status-badge--info">info</span>
+                  <time datetime="2026-08-12T17:00:00+08:00">17:00</time>
+                </header>
+                <h3>Audit delivery lag exceeded the ten-minute SLO</h3>
+                <p><a href="#service-health-aggregator-ap-southeast-1-10">health-aggregator</a> in <code>ap-southeast-1</code> is mitigating.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to eu-central-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="warning">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08142</strong>
+                  <span class="status-badge status-badge--warning">warning</span>
+                  <time datetime="2026-08-12T07:00:00+08:00">07:00</time>
+                </header>
+                <h3>Canary error rate crossed the automatic pause threshold</h3>
+                <p><a href="#service-audit-ledger-eu-central-1-15">audit-ledger</a> in <code>eu-central-1</code> is monitoring.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to us-east-1; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+            <li class="incident-item" data-severity="critical">
+              <span class="incident-marker" aria-hidden="true"></span>
+              <article>
+                <header class="incident-item__header">
+                  <strong>INC-2026-08143</strong>
+                  <span class="status-badge status-badge--critical">critical</span>
+                  <time datetime="2026-08-12T08:00:00+08:00">08:00</time>
+                </header>
+                <h3>Policy cache served stale tenant constraints</h3>
+                <p><a href="#service-event-router-us-east-1-20">event-router</a> in <code>us-east-1</code> is resolved.</p>
+                <details>
+                  <summary>Operator notes</summary>
+                  <p>Traffic was shifted to ap-northeast-2; automated rollback guard remains armed.</p>
+                </details>
+              </article>
+            </li>
+          </ol>
+        </section>
+        <section id="audit" class="panel" aria-labelledby="audit-title">
+          <header class="panel-header">
+            <div>
+              <p class="eyebrow">Immutable activity</p>
+              <h2 id="audit-title">Audit stream</h2>
+            </div>
+            <label class="switch"><input type="checkbox" checked><span>Follow live events</span></label>
+          </header>
+          <pre class="log-view" aria-label="Recent audit events"><code>
+2026-08-12T16:00:00+08:00 INFO rollout.observed service=access-gateway region=ap-northeast-2 revision=2026.08.120 state=healthy
+2026-08-12T16:03:00+08:00 INFO rollout.observed service=artifact-registry region=ap-southeast-1 revision=2026.08.121 state=paused
+2026-08-12T16:06:00+08:00 INFO rollout.observed service=audit-ledger region=eu-central-1 revision=2026.08.122 state=degraded
+2026-08-12T16:09:00+08:00 INFO rollout.observed service=billing-meter region=us-east-1 revision=2026.08.123 state=deploying
+2026-08-12T16:12:00+08:00 INFO rollout.observed service=change-planner region=ap-northeast-2 revision=2026.08.124 state=healthy
+2026-08-12T16:15:00+08:00 INFO rollout.observed service=config-resolver region=ap-southeast-1 revision=2026.08.125 state=paused
+2026-08-12T16:18:00+08:00 INFO rollout.observed service=deployment-coordinator region=eu-central-1 revision=2026.08.126 state=degraded
+2026-08-12T16:21:00+08:00 INFO rollout.observed service=event-router region=us-east-1 revision=2026.08.127 state=deploying
+2026-08-12T16:24:00+08:00 INFO rollout.observed service=flag-evaluator region=ap-northeast-2 revision=2026.08.128 state=healthy
+2026-08-12T16:27:00+08:00 INFO rollout.observed service=health-aggregator region=ap-southeast-1 revision=2026.08.129 state=paused
+2026-08-12T16:30:00+08:00 INFO rollout.observed service=incident-broker region=eu-central-1 revision=2026.08.130 state=degraded
+2026-08-12T16:33:00+08:00 INFO rollout.observed service=policy-engine region=us-east-1 revision=2026.08.131 state=deploying
+2026-08-12T16:36:00+08:00 INFO rollout.observed service=access-gateway region=ap-northeast-2 revision=2026.08.132 state=healthy
+2026-08-12T16:39:00+08:00 INFO rollout.observed service=artifact-registry region=ap-southeast-1 revision=2026.08.133 state=paused
+2026-08-12T16:42:00+08:00 INFO rollout.observed service=audit-ledger region=eu-central-1 revision=2026.08.134 state=degraded
+2026-08-12T16:45:00+08:00 INFO rollout.observed service=billing-meter region=us-east-1 revision=2026.08.135 state=deploying
+2026-08-12T16:48:00+08:00 INFO rollout.observed service=change-planner region=ap-northeast-2 revision=2026.08.136 state=healthy
+2026-08-12T16:51:00+08:00 INFO rollout.observed service=config-resolver region=ap-southeast-1 revision=2026.08.137 state=paused
+2026-08-12T16:54:00+08:00 INFO rollout.observed service=deployment-coordinator region=eu-central-1 revision=2026.08.138 state=degraded
+2026-08-12T16:57:00+08:00 INFO rollout.observed service=event-router region=us-east-1 revision=2026.08.139 state=deploying
+2026-08-12T16:00:00+08:00 INFO rollout.observed service=flag-evaluator region=ap-northeast-2 revision=2026.08.140 state=healthy
+2026-08-12T16:03:00+08:00 INFO rollout.observed service=health-aggregator region=ap-southeast-1 revision=2026.08.141 state=paused
+2026-08-12T16:06:00+08:00 INFO rollout.observed service=incident-broker region=eu-central-1 revision=2026.08.142 state=degraded
+2026-08-12T16:09:00+08:00 INFO rollout.observed service=policy-engine region=us-east-1 revision=2026.08.143 state=deploying
+2026-08-12T16:12:00+08:00 INFO rollout.observed service=access-gateway region=ap-northeast-2 revision=2026.08.144 state=healthy
+2026-08-12T16:15:00+08:00 INFO rollout.observed service=artifact-registry region=ap-southeast-1 revision=2026.08.145 state=paused
+2026-08-12T16:18:00+08:00 INFO rollout.observed service=audit-ledger region=eu-central-1 revision=2026.08.146 state=degraded
+2026-08-12T16:21:00+08:00 INFO rollout.observed service=billing-meter region=us-east-1 revision=2026.08.147 state=deploying
+2026-08-12T16:24:00+08:00 INFO rollout.observed service=change-planner region=ap-northeast-2 revision=2026.08.148 state=healthy
+2026-08-12T16:27:00+08:00 INFO rollout.observed service=config-resolver region=ap-southeast-1 revision=2026.08.149 state=paused
+2026-08-12T16:30:00+08:00 INFO rollout.observed service=deployment-coordinator region=eu-central-1 revision=2026.08.150 state=degraded
+2026-08-12T16:33:00+08:00 INFO rollout.observed service=event-router region=us-east-1 revision=2026.08.151 state=deploying
+          </code></pre>
+        </section>
+      </main>
+    </div>
+    <dialog id="new-rollout" class="dialog">
+      <form method="dialog" class="dialog__surface">
+        <header><h2>Plan a progressive rollout</h2><button class="icon-button" value="cancel" aria-label="Close">×</button></header>
+        <label>Service<select name="service" required><option value="">Select a service</option><option>flag-evaluator</option><option>policy-engine</option></select></label>
+        <label>Initial exposure<input name="exposure" type="number" min="1" max="25" value="5" required></label>
+        <label>Change reason<textarea name="reason" rows="4" required></textarea></label>
+        <footer><button class="button button--quiet" value="cancel">Cancel</button><button class="button button--primary" value="default">Create plan</button></footer>
+      </form>
+    </dialog>
+    <template id="toast-template">
+      <output class="toast" role="status"><strong data-toast-title></strong><span data-toast-message></span></output>
+    </template>
   </body>
 </html>

@@ -68,6 +68,7 @@
     // ---- Lists & trees ----
     "list.focusBackground": "#dfe6ed",
     "list.focusForeground": "#101c32",
+    "list.focusAndSelectionOutline": "#00000000",
     "list.hoverBackground": "#dbdde0",
     "list.hoverForeground": "#353535",
     "list.inactiveSelectionBackground": "#c7cbd1",
@@ -556,13 +557,13 @@
     "settings.numberInputBorder": "#c7ccd2",
 
     // ---- Git decorations & SCM graph ----
-    "gitDecoration.addedResourceForeground": "#1F9D3A",
+    "gitDecoration.addedResourceForeground": "#14732D",
     "gitDecoration.modifiedResourceForeground": "#0066D6",
     "gitDecoration.deletedResourceForeground": "#D70015",
     "gitDecoration.renamedResourceForeground": "#32ADE6",
     "gitDecoration.stageModifiedResourceForeground": "#0A84FF",
     "gitDecoration.stageDeletedResourceForeground": "#D70015CC",
-    "gitDecoration.untrackedResourceForeground": "#1F9D3ACC",
+    "gitDecoration.untrackedResourceForeground": "#14732D",
     "gitDecoration.ignoredResourceForeground": "#8E8E93",
     "gitDecoration.conflictingResourceForeground": "#BF8803",
     "gitDecoration.submoduleResourceForeground": "#5E5CE6",
@@ -813,6 +814,7 @@
     "variable.readonly.defaultLibrary": "#4469BD",
     "property": "#353535",
     "property.readonly": "#353535",
+    "property.callable:python": "#8431c5",
     "enumMember": "#e88501",
     "decorator": "#8431c5",
     "event": "#8431c5",
@@ -1209,6 +1211,13 @@
         "support.function.any-method",
         "variable.function"
       ],
+      "settings": {
+        "foreground": "#8431c5"
+      }
+    },
+    {
+      "name": "Python member call",
+      "scope": "meta.member.access.python meta.function-call.generic.python",
       "settings": {
         "foreground": "#8431c5"
       }
